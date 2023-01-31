@@ -1,3 +1,3 @@
 # SwiftTCPClient
 
-A description of this package.
+Simple Swfit TCP client using SwiftNIO and Combine.
