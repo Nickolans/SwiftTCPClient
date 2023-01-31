@@ -23,11 +23,11 @@ class TCPClientHandler: ChannelInboundHandler, ChannelOutboundHandler {
         guard let bytes = buffer.getBytes(at: 0, length: buffer.readableBytes) else { return }
         let data = Data(bytes)
         
-        NotificationCenter.default.post(name: Constants.readName, object: data)
+        NotificationCenter.default.post(name: Constants.Notifications.readName, object: data)
     }
     
     func errorCaught(context: ChannelHandlerContext, error: Error) {
-        //
+        print("ERROR: \(error.description)")
     }
     
     func write(context: ChannelHandlerContext, data: NIOAny, promise: EventLoopPromise<Void>?) {

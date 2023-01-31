@@ -9,14 +9,16 @@ import Foundation
 import NIO
 import Combine
 
+@available(iOS 13.0, *)
 final class TCPService {
     
     private let ip: String
     private let port: String
+    private let autoreconnect: Bool
     
     static var shared: TCPService?
     
-    public var publisher = NotificationCenter.Publisher(center: .default, name: Constants.readName)
+    public var publisher = NotificationCenter.Publisher(center: .default, name: Constants.Notifications.readName)
     
     /**
      Owns single file descriptor we will interact with and manages its lifetime.
@@ -39,10 +41,10 @@ final class TCPService {
             }
     }
     
-    init(ip: String, port: String) {
+    init(ip: String, port: String, autoreconnect: Bool) {
         self.ip = ip
         self.port = port
-        self.startTCPNIO()
+        self.autoreconnect = autoreconnect
     }
     
     public func disconnect() {
@@ -60,12 +62,13 @@ final class TCPService {
 //   ╚══════════════════════════════════════════════╝
 //
 
+@available(iOS 13.0, *)
 extension TCPService {
-    private func startTCPNIO() throws {
+    func startTCPNIO() throws {
         do {
             self.channel = try bootstrap.connect(host: self.ip, port: Int(self.port)!).wait()
         } catch let error {
-            throw Error("Error starting TCP-NIO: \(error.localizedDescription)")
+            throw error
         }
     }
     
@@ -86,12 +89,13 @@ extension TCPService {
 //   ╔══════════════════════════════════════════════╗
 // ╔══════════════════════════════════════════════════╗
 // ║                                                  ║
-// ║  TESTS FUNCTIONS                                 ║
+// ║  TEST FUNCTIONS                                 ║
 // ║                                                  ║
 // ╚══════════════════════════════════════════════════╝
 //   ╚══════════════════════════════════════════════╝
 //
 
+@available(iOS 13.0, *)
 extension TCPService {
     private func sendRepeatingMessage(withInterval seconds: UInt32, message: String) {
         while (true) {

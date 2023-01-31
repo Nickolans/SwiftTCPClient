@@ -8,5 +8,7 @@
 import Foundation
 
 struct Constants {
-    static let readName = Notification.Name("SwiftTCPClientRead")
+    struct Notifications {
+        static let readName = Notification.Name("SwiftTCPClientRead")
+    }
 }

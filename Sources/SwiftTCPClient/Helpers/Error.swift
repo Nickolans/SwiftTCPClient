@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Error {
+struct Error {
     public private(set) var description: String
     
     init(_ description: String) {
